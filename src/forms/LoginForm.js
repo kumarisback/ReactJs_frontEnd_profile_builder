@@ -31,19 +31,14 @@ const LoginForm = (props) => {
       });
       if (res.status === 200) {
         let data=await res.data;
-        console.log(localStorage.getItem("TOKEN"));
-        console.log(true,data.ID,data.username,typeof data.token);
         localStorage.setItem("TOKEN",JSON.stringify(data.token));
         navigate(`/myprofile/${data.ID}`);
-        console.log(localStorage.getItem("TOKEN"));
         props.authHandler(true,data.ID,data.username);
-        console.log( response.data);
         return
       } 
     } catch (error) {
       setLoginStatus(true);
-      console.log(error.response);
-      // alert("something went wrong please try again");
+      alert("something went wrong please try again later");
     }
   };
 
@@ -122,7 +117,7 @@ const LoginForm = (props) => {
                   <p className="text-sm font-semibold mt-2 pt-1 mb-0">
                     Don't have an account?
                     <a
-                      href="#"
+                      onClick={()=>{navigate("/register")}}
                       className="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
                     >
                       Register

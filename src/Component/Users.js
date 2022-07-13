@@ -19,7 +19,7 @@ const Users = () => {
   }, []);
 
   return (
-    <div className="   grid justify-items-center  ">
+    <div className=" grid justify-items-center  ">
       {data.map((user) => {
         return <Card key={user.id} data={user} />
       })}

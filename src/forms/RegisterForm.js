@@ -29,7 +29,7 @@ const RegisterForm = () => {
       formData.append("name", name.current.value);
       formData.append("email", email.current.value);
       formData.append("password", password.current.value);
-      formData.append("phone", password.current.value);
+      formData.append("phone", phoneNo.current.value);
 
       const res = await axios.post(
         myInitObject.homeURL + "/register",
