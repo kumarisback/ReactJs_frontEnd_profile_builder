@@ -2,8 +2,10 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import axios from "axios";
 import myInitObject from "../ApiUrl/url";
 import UserContext from "../Context/ContextApi";
+import { useNavigate } from "react-router-dom";
 
 const ProfileSetup = () => {
+  let nav = useNavigate();
   const context = useContext(UserContext);
   const [profileDetails, setProfileDetails] = useState([]);
   const [actionAttribute, setActionAttribute] = useState({
@@ -11,42 +13,36 @@ const ProfileSetup = () => {
     id: null,
   });
   const [message, setMessage] = useState(null);
-  const [about, setAbout] = useState(null);
   const [file, setFile] = useState();
   const [sendFile, setSendFile] = useState({ file: null });
   const [deleteitem, setDeleteitem] = useState(false);
 
   const projectName = useRef("");
   const projectDetails = useRef("");
-  const aboutSummary=useRef("");
+  const aboutSummary = useRef("");
   useEffect(() => {
-    const fetchData=async()=>{
-      try{
-        let res=await axios.get(myInitObject.homeURL + `/myprofile`,{
+    const fetchData = async () => {
+      try {
+        let res = await axios.get(myInitObject.homeURL + `/myprofile`, {
           headers: {
             Authorization: `Bearer ${JSON.parse(
               localStorage.getItem("TOKEN")
             )}`,
           },
-        })
+        });
 
-        if(res.status===200){
-          let data=await res.data;
-          aboutSummary.current.value= data.about
-          setLinks({links:[...data.socialLinks]})
-          setSkills({skills:[...data.skills]})
-          setProjects({projects:[...data.projects]})
+        if (res.status === 200) {
+          let data = await res.data;
+          aboutSummary.current.value = data.about;
+          setLinks({ links: [...data.socialLinks] });
+          setSkills({ skills: [...data.skills] });
+          setProjects({ projects: [...data.projects] });
         }
-    }
-    catch(error){
+      } catch (error) {}
+    };
 
-    }
-  }
-  
     fetchData();
-  }, [])
-  
-
+  }, []);
 
   const [skills, setSkills] = useState({
     skills: [],
@@ -62,6 +58,11 @@ const ProfileSetup = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
+    if( sendFile.file.size >100000 ){
+      setMessage("Size of file should be less then 1MB")
+      return
+    }
     if (skills.skills.length === 0 || !skills.skills) {
       setMessage("Put atleast One skill");
       return;
@@ -74,21 +75,22 @@ const ProfileSetup = () => {
       setMessage("Put atleast One poject");
       return;
     }
-    if (about.trim().length === 0 || !about) {
+    if (
+      aboutSummary.current.value.trim().length === 0 ||
+      !aboutSummary.current.value
+    ) {
       setMessage("Profile summary is neccessary");
       return;
     }
 
-    console.log(context);
     let data = new FormData();
 
     data.append("skills", skills.skills);
     data.append("projects", projects.projects);
     data.append("socialLinks", links.links);
     data.append("file", sendFile.file);
-    data.append("about", about);
+    data.append("about", aboutSummary.current.value.trim());
 
-    console.log(data);
     try {
       let res = await axios.put(
         myInitObject.homeURL + "/create/" + `${context.id}`,
@@ -101,11 +103,9 @@ const ProfileSetup = () => {
           },
         }
       );
-      console.log(await res.data);
+      nav("/myprofile");
       return;
-    } catch (error) {
-      console.log(error.response);
-    }
+    } catch (error) {}
   };
 
   const isValidUrl = (urlString) => {
@@ -251,9 +251,6 @@ const ProfileSetup = () => {
           ref={aboutSummary}
           className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
           placeholder="Hi, i'm a  ....."
-          onChange={(e) => {
-            setAbout(e.target.value);
-          }}
           required
         />
       </div>
@@ -307,7 +304,7 @@ const ProfileSetup = () => {
         <input
           type="text"
           className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-          placeholder="c , c++"
+          placeholder="Java Enter c++ enter so on"
           onKeyPress={(e) => {
             if (e.target.value.length > 20) {
               setMessage("skill length should be less then 20");
@@ -351,10 +348,16 @@ const ProfileSetup = () => {
                 <button
                   type="button"
                   onClick={() => {
-                    console.log(projectName.current.value);
-                    console.log(projectDetails.current.value);
-                    if(projectName.current.value!=""||projectDetails.current.value!="") {
-                      if(!window.confirm('We recommend to first submit current project and then edit clicking ok will delete the ongoing project')) return
+                    if (
+                      projectName.current.value != "" ||
+                      projectDetails.current.value != ""
+                    ) {
+                      if (
+                        !window.confirm(
+                          "We recommend to first submit current project and then edit clicking ok will delete the ongoing project"
+                        )
+                      )
+                        return;
                     }
                     projectName.current.value = x[0];
                     projectDetails.current.value = x[1];
@@ -488,9 +491,10 @@ const ProfileSetup = () => {
           //   value={profiledata.links}
           type="url"
           id="links"
+          placeholder="first link then enter then second link"
           className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
           onKeyPress={(e) => {
-            if (e.target.value.length > 60) {
+            if (e.target.value.length > 100) {
               setMessage("skill length should be less then 60");
               return;
             }

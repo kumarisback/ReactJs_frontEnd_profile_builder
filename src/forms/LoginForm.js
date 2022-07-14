@@ -1,23 +1,26 @@
 import axios from "axios";
-import React, { useRef, useState ,useContext,useEffect} from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 import myInitObject from "../ApiUrl/url";
 import ContextApi from "../Context/ContextApi";
 import { Buffer } from "buffer";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = (props) => {
-  let navigate=useNavigate();
+  let navigate = useNavigate();
   const userName = useRef();
   const passWord = useRef();
   const [loginStatus, setLoginStatus] = useState(false);
   const userDetails = useContext(ContextApi);
   const submitHandler = async (e) => {
     e.preventDefault();
-    if((userName.current.value).trim().length===0 ||(passWord.current.value).trim().length===null){
-       alert("Please fill email/password")
-       return
+    if (
+      userName.current.value.trim().length === 0 ||
+      passWord.current.value.trim().length === null
+    ) {
+      alert("Please fill email/password");
+      return;
     }
-    
+
     try {
       const token = Buffer.from(
         `${userName.current.value}:${passWord.current.value}`,
@@ -30,38 +33,35 @@ const LoginForm = (props) => {
         },
       });
       if (res.status === 200) {
-        let data=await res.data;
-        console.log(localStorage.getItem("TOKEN"));
-        console.log(true,data.ID,data.username,typeof data.token);
-        localStorage.setItem("TOKEN",JSON.stringify(data.token));
+        let data = await res.data;
+        localStorage.setItem("TOKEN", JSON.stringify(data.token));
         navigate(`/myprofile/${data.ID}`);
-        console.log(localStorage.getItem("TOKEN"));
-        props.authHandler(true,data.ID,data.username);
-        console.log( response.data);
-        return
-      } 
+        props.authHandler(true, data.ID, data.username);
+        return;
+      }
     } catch (error) {
       setLoginStatus(true);
-      console.log(error.response);
-      // alert("something went wrong please try again");
+      alert("something went wrong please try again later");
     }
   };
 
   useEffect(() => {
-    let timer = setTimeout(() => setLoginStatus(false),   2000);
-  
+    let timer = setTimeout(() => setLoginStatus(false), 2000);
+
     return () => {
       clearTimeout(timer);
-    }
-  }, [loginStatus])
-  
+    };
+  }, [loginStatus]);
+
   return (
     <div>
-      {loginStatus&& <div role="alert">
-        <div className="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-          <p>Username or  password is wrong</p>
+      {loginStatus && (
+        <div role="alert">
+          <div className="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+            <p>Username or password is wrong</p>
+          </div>
         </div>
-      </div>}
+      )}
       <section className="h-screen">
         <div className="px-6 h-full text-gray-800">
           <div className="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6">
@@ -90,7 +90,7 @@ const LoginForm = (props) => {
                     type="password"
                     className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                     placeholder="Password"
-                    ref={passWord}    
+                    ref={passWord}
                     pattern=".{6,}"
                     required
                     title="6 characters minimum"
@@ -122,7 +122,9 @@ const LoginForm = (props) => {
                   <p className="text-sm font-semibold mt-2 pt-1 mb-0">
                     Don't have an account?
                     <a
-                      href="#"
+                      onClick={() => {
+                        navigate("/register");
+                      }}
                       className="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
                     >
                       Register

@@ -11,6 +11,7 @@ import ProfileSetup from "./profile/ProfileSetup";
 import axios from "axios";
 import myInitObject from "./ApiUrl/url";
 import RequiredAuth from './Context/RequireAuth'
+import PageNotFound from "./Component/PageNotFound";
 
 function App() {
   const [user, setUser] = useState({ isAuth: false, id: null, email: null });
@@ -32,11 +33,9 @@ function App() {
           });
           if (res.status === 200) {
             let {id,email}=await res.data;
-            console.log(await res.data)
             setUser({id:id, email:email, isAuth: true });
           }
         } catch (error) {
-          console.log(error.response);
           alert("Session is expire please login again");
           nav("/login");
           return;
@@ -48,7 +47,6 @@ function App() {
 
   const authHandler = (isAuth, id, email) => {
     setUser({ isAuth: isAuth, id: id, email: email });
-    console.log(isAuth ,id, email);
    return;
   };
 
@@ -66,10 +64,10 @@ function App() {
             element={<LoginForm authHandler={authHandler} />}
           />
           <Route path="/register" element={<RegisterForm />} />
-          <Route path="/myprofile/:id" element={<RequiredAuth><Profile /></RequiredAuth> } />
+          <Route path="/myprofile/:id" element={<Profile /> } />
           <Route path="/myprofile" element={<RequiredAuth><Profile /></RequiredAuth> } />
           <Route path="/editprofile" element={<RequiredAuth><ProfileSetup /></RequiredAuth>} />
-          <Route path="/*" element ={<>404</>}/>
+          <Route path="/*" element ={<PageNotFound/>}/>
         </Routes>
       </ContextApi.Provider>
     </>

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import ContextApi from "../Context/ContextApi";
 import myInitObject from "../ApiUrl/url";
 import axios from "axios";
-import img from "../images/bg.jpg"
+import img from "../images/bg.jpg";
 import { useNavigate, useParams } from "react-router-dom";
 import ProjectCard from "../Component/ProjectCard";
 
@@ -11,8 +11,11 @@ const Profile = () => {
   const userDetails = useContext(ContextApi);
   const [userData, setUserData] = useState();
   const [loding, setLoding] = useState(true);
-  let nav=useNavigate();
+  let nav = useNavigate();
   let url = myInitObject.homeURL + `/myprofile`;
+  if (id != null) {
+    url = myInitObject.homeURL + `/profile/${id}`;
+  }
 
   useEffect(() => {
     const doIt = async () => {
@@ -24,7 +27,6 @@ const Profile = () => {
             )}`,
           },
         });
-        console.log(await res.data);
         if (res.status == 200) {
           let data = await res.data;
           setUserData(data);
@@ -33,91 +35,191 @@ const Profile = () => {
           alert(await res.data);
         }
       } catch (error) {
-        console.log(await error.res.data);
-        // alert("Something went wrong");
+        alert("Something went wrong");
       }
     };
-    doIt();
+
+    const anonymous = async () => {
+      try {
+        const res = await axios.get(url);
+        if (res.status == 200) {
+          let data = await res.data;
+          setUserData(data);
+          setLoding(false);
+        } else {
+          alert(await res.data);
+        }
+      } catch (error) {
+        alert(error.response.data);
+        nav(-1);
+        setLoding(false);
+      }
+    };
+    if (id == null) doIt();
+    else anonymous();
   }, []);
-  console.log(userData);
   return (
     <div>
-      {loding?  "jo"   :<div
-        className="font-sans antialiased text-gray-900 leading-normal tracking-wider bg-cover"
-        style={{
-          backgroundImage: "url('https://source.unsplash.com/1L71sPT5XKc')",
-          objectFit:"fill"
-        }}
-      >
-        <div className="max-w-4xl flex items-center h-auto  flex-wrap mx-auto my-32 lg:my-0">
-          <div
-            id="profile"
-            className="w-full lg:w-3/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-2xl bg-white opacity-75 mx-6 lg:mx-0"
+      {loding ? (
+        <div className="text-center">
+          <svg
+            role="status"
+            className="inline mr-2 w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+            viewBox="0 0 100 101"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <div className="p-4 md:p-12 text-center lg:text-left">
-              <div
-                className="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center"
-                style={{
-                  backgroundImage:
-                    `url(${userData.filepath === null
-                      ?img
-                      : myInitObject.homeURL+"/"+userData.filepath})`,
-                }}
-              ></div>
-              <button onClick={()=>{nav("/editprofile")}} type="button" className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Edit</button>
-              <h1 className="text-3xl font-bold pt-8 lg:pt-0">{userData.name}</h1>
-              <div className="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-green-500 opacity-25"></div>
-              <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start">
-                <svg
-                  className="h-4 fill-current text-green-700 pr-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
+            <path
+              d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+              fill="currentColor"
+            />
+            <path
+              d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+              fill="currentFill"
+            />
+          </svg>
+        </div>
+      ) : (
+        <div
+          className="font-sans antialiased text-gray-900 leading-normal tracking-wider bg-cover"
+          style={{
+            backgroundImage: "url('https://source.unsplash.com/1L71sPT5XKc')",
+            objectFit: "fill",
+          }}
+        >
+          <div className="max-w-4xl flex items-center h-auto  flex-wrap mx-auto my-32 lg:my-0">
+            <div
+              id="profile"
+              className="w-full lg:w-3/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-2xl bg-white opacity-75 mx-6 lg:mx-0"
+            >
+              <div className="p-4 md:p-12 text-center lg:text-left">
+                <div
+                  className="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center"
+                  style={{
+                    backgroundImage: `url(${
+                      userData.filepath === null
+                        ? img
+                        : myInitObject.homeURL + "/" + userData.filepath
+                    })`,
+                  }}
+                ></div>
+                {userDetails.isAuth && userDetails.email === userData.email && (
+                  <button
+                    onClick={() => {
+                      nav("/editprofile");
+                    }}
+                    type="button"
+                    className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                  >
+                    Edit
+                  </button>
+                )}
+                <h1 className="text-3xl font-bold pt-8 lg:pt-0">
+                  {userData.name}
+                </h1>
+                <div className="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-green-500 opacity-25"></div>
+                <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start">
+                  <svg
+                    className="h-4 fill-current text-green-700 pr-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9 12H1v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-8v2H9v-2zm0-1H0V5c0-1.1.9-2 2-2h4V2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v6h-9V9H9v2zm3-8V2H8v1h4z" />
+                  </svg>{" "}
+                  {userData.about}
+                </p>
+                <a
+                  className="no-underline text-rose-500 bg-red-200 font-bold py-2 px-4 rounded-full"
+                  href={`mailto:${userData.email}`}
                 >
-                  <path d="M9 12H1v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-8v2H9v-2zm0-1H0V5c0-1.1.9-2 2-2h4V2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v6h-9V9H9v2zm3-8V2H8v1h4z" />
-                </svg>{" "}
-                {userData.about}
-              </p>
-              <a  className="no-underline text-rose-500 bg-red-200 font-bold py-2 px-4 rounded-full" href={`mailto:${userData.email}`}> email  </a>
-              <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start">
-   
-              </p>
-              <ul>
-                <h2> skills </h2>
-              {userData.skills?.map((skill,id)=>{
-                return (<li key={id} className="bg-green-100  m-1 list-none text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">{skill}</li>
-                )
-              })}
-              </ul>
+                  {" "}
+                  email{" "}
+                </a>
+                <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"></p>
+                <ul>
+                  <h2> skills </h2>
+                  {userData.skills?.map((skill, id) => {
+                    return (
+                      <li
+                        key={id}
+                        className="bg-green-100  m-1 list-none text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900"
+                      >
+                        {skill}
+                      </li>
+                    );
+                  })}
+                  {userData.skills === null && (
+                    <li
+                      key={id}
+                      className="bg-green-100  m-1 list-none text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900"
+                    >
+                      No Skills !!!!
+                    </li>
+                  )}
+                </ul>
 
-              <ul>
-                <h2> Projects </h2>
-              {userData.projects?.map((project,id)=>{
-                let x=project.split("/*/")
-                return (
-                  <div key={id} className="m-1">
-                    <li  className="bg-green-100 font-medium list-none  text-green-800   mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">{x[0]}</li>
-                <li  className="bg-green-100 list-none  text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">{x[1]}</li>
+                <ul>
+                  <h2> Projects </h2>
+                  {userData.projects?.map((project, id) => {
+                    let x = project.split("/*/");
+                    return (
+                      <div key={id} className="m-1">
+                        <li className="bg-green-100 font-medium list-none  text-green-800   mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">
+                          {x[0]}
+                        </li>
+                        <li className="bg-green-100 list-none  text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">
+                          {x[1]}
+                        </li>
+                      </div>
+                    );
+                  })}
+                  {userData.projects === null && (
+                    <li
+                      key={id}
+                      className="bg-green-100  m-1 list-none text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900"
+                    >
+                      No Projects !!!!
+                    </li>
+                  )}
+                </ul>
+
+                <ul>
+                  <h2>Social Links </h2>
+                  {userData.socialLinks?.map((link, id) => {
+                    return (
+                      <li
+                        key={id}
+                        className="font-normal bg-green-100 list-none m-1 text-green-800 text-xs  mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900"
+                      >
+                        <a target={"_blank"} href={link}>
+                          {link}
+                        </a>
+                      </li>
+                    );
+                  })}
+                  {userData.socialLinks === null && (
+                    <li
+                      key={id}
+                      className="bg-green-100  m-1 list-none text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900"
+                    >
+                      No Links !!!!
+                    </li>
+                  )}
+                </ul>
+
+                <div className="pt-12 pb-8">
+                  <button className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full">
+                    <a
+                      className="no-underline text-emerald-200 "
+                      href={`tel:${userData.mobileno}`}
+                    >
+                      Get In Touch {userData.mobileno}
+                    </a>
+                  </button>
                 </div>
-                )
-              })}
-              </ul>
 
-              <ul>
-                <h2>Social Links </h2>
-              {userData.socialLinks?.map((link,id)=>{
-                return (<li key={id} className="font-normal bg-green-100 list-none m-1 text-green-800 text-xs  mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900"><a target={"_blank"} href={link}>{link}</a></li>
-                )
-              })}
-              </ul>
-              
-              <div className="pt-12 pb-8">
-                <button className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full">
-                 <a className="no-underline text-emerald-200 " href={`tel:${userData.mobileno}`}>Get In Touch {userData.mobileno}</a>
-                </button>
-              </div>
-
-              <div className="mt-6 pb-16 lg:pb-0 w-4/5 lg:w-full mx-auto flex flex-wrap items-center justify-between">
-                {/* <a className="link" href="#" data-tippy-content="@facebook_handle">
+                <div className="mt-6 pb-16 lg:pb-0 w-4/5 lg:w-full mx-auto flex flex-wrap items-center justify-between">
+                  {/* <a className="link" href="#" data-tippy-content="@facebook_handle">
                   <svg
                     className="h-6 fill-current text-gray-600 hover:text-green-700"
                     role="img"
@@ -194,25 +296,27 @@ const Profile = () => {
                     <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z" />
                   </svg>
                 </a> */}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="w-full lg:w-2/5">
-            <img style={{objectFit:"cover", width:"100%"}}
-              src={
-                userData.filepath === null
-                  ? img
-                  : myInitObject.homeURL+"/"+userData.filepath
-              }
-              className="rounded-none lg:rounded-lg shadow-2xl hidden lg:block"
-            />
-          </div>
+            <div className="w-full lg:w-2/5">
+              <img
+                style={{ objectFit: "cover", width: "100%" }}
+                src={
+                  userData.filepath === null
+                    ? img
+                    : myInitObject.homeURL + "/" + userData.filepath
+                }
+                className="rounded-none lg:rounded-lg shadow-2xl hidden lg:block"
+              />
+            </div>
 
-          <div className="absolute top-0 right-0 h-12 w-18 p-4">
-            <button className="js-change-theme focus:outline-none">🌙</button>
+            <div className="absolute top-0 right-0 h-12 w-18 p-4">
+              <button className="js-change-theme focus:outline-none">🌙</button>
+            </div>
           </div>
         </div>
-      </div>}
+      )}
     </div>
   );
 };
