@@ -33,7 +33,6 @@ function App() {
           });
           if (res.status === 200) {
             let {id,email}=await res.data;
-            console.log(await res.data)
             setUser({id:id, email:email, isAuth: true });
           }
         } catch (error) {

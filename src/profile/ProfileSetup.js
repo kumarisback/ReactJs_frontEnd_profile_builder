@@ -58,6 +58,11 @@ const ProfileSetup = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
+    if( sendFile.file.size >100000 ){
+      setMessage("Size of file should be less then 1MB")
+      return
+    }
     if (skills.skills.length === 0 || !skills.skills) {
       setMessage("Put atleast One skill");
       return;
@@ -343,8 +348,6 @@ const ProfileSetup = () => {
                 <button
                   type="button"
                   onClick={() => {
-                    console.log(projectName.current.value);
-                    console.log(projectDetails.current.value);
                     if (
                       projectName.current.value != "" ||
                       projectDetails.current.value != ""
