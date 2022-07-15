@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import ContextApi from "../Context/ContextApi";
 import myInitObject from "../ApiUrl/url";
+<<<<<<< HEAD
 import axios, { Axios } from "axios";
 import img from "../images/img.jfif";
 import { useNavigate, useParams } from "react-router-dom";

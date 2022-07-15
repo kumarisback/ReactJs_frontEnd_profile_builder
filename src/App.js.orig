@@ -3,8 +3,11 @@ import LoginForm from "./forms/LoginForm";
 import RegisterForm from "./forms/RegisterForm";
 import { BrowserRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "./Component/Navbar";
-
+<<<<<<< HEAD
 import { useContext, useEffect, useState, Suspense, lazy  } from "react";
+=======
+import { useContext, useEffect, useState } from "react";
+>>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
 import ContextApi from "./Context/ContextApi";
 import Profile from "./profile/Profile";
 import Home from "./Component/Home";
@@ -12,9 +15,12 @@ import ProfileSetup from "./profile/ProfileSetup";
 import axios from "axios";
 import myInitObject from "./ApiUrl/url";
 import RequiredAuth from './Context/RequireAuth'
-
+<<<<<<< HEAD
 // import PageNotFound from "./Component/PageNotFound";
 const PageNotFound = lazy(() => import("./Component/PageNotFound"));
+=======
+import PageNotFound from "./Component/PageNotFound";
+>>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
 
 function App() {
   const [user, setUser] = useState({ isAuth: false, id: null, email: null });
@@ -60,11 +66,13 @@ function App() {
         value={{ isAuth: user.isAuth, id: user.id, email: user.email }}
       >
         <Navbar authHandler={authHandler} />
-
+<<<<<<< HEAD
         <Suspense fallback={<div>Loading...</div>}>
         <Routes>
        
-
+=======
+        <Routes>
+>>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
           <Route path="/" element={<Home></Home>} />
           <Route path="/users" element={<Users />} />
           <Route
@@ -72,7 +80,7 @@ function App() {
             element={<LoginForm authHandler={authHandler} />}
           />
           <Route path="/register" element={<RegisterForm />} />
-
+<<<<<<< HEAD
           <Route path="/myprofile/:id" element={<Profile authHandler={authHandler} /> } />
           <Route path="/myprofile" element={<RequiredAuth><Profile /></RequiredAuth> } />
           <Route path="/editprofile" element={<RequiredAuth><ProfileSetup /></RequiredAuth>} />
@@ -80,7 +88,13 @@ function App() {
           <Route path="/*" element ={<PageNotFound/>}/>
         </Routes>
         </Suspense>
-
+=======
+          <Route path="/myprofile/:id" element={<Profile /> } />
+          <Route path="/myprofile" element={<RequiredAuth><Profile /></RequiredAuth> } />
+          <Route path="/editprofile" element={<RequiredAuth><ProfileSetup /></RequiredAuth>} />
+          <Route path="/*" element ={<PageNotFound/>}/>
+        </Routes>
+>>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
       </ContextApi.Provider>
     </>
 

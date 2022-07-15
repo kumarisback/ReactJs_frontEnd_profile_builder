@@ -2,9 +2,12 @@
   "name": "profilebuilder",
   "version": "0.1.0",
   "private": true,
+<<<<<<< HEAD
   "engines": {
     "node": "16.x"
   },
+=======
+>>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
