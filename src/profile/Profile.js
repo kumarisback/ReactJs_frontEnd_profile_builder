@@ -5,12 +5,6 @@ import axios, { Axios } from "axios";
 import img from "../images/img.jfif";
 import { useNavigate, useParams } from "react-router-dom";
 
-const Profile = (props) => {
-
-import axios from "axios";
-import img from "../images/bg.jpg";
-import { useNavigate, useParams } from "react-router-dom";
-import ProjectCard from "../Component/ProjectCard";
 
 const Profile = () => {
   const { id } = useParams();
