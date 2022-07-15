@@ -41,11 +41,7 @@ const LoginForm = (props) => {
       }
     } catch (error) {
       setLoginStatus(true);
-<<<<<<< HEAD
       alert("Wrong Credentials");
-=======
-      alert("something went wrong please try again later");
->>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
     }
   };
 

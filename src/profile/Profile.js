@@ -6,14 +6,13 @@ import img from "../images/img.jfif";
 import { useNavigate, useParams } from "react-router-dom";
 
 const Profile = (props) => {
-=======
+
 import axios from "axios";
 import img from "../images/bg.jpg";
 import { useNavigate, useParams } from "react-router-dom";
 import ProjectCard from "../Component/ProjectCard";
 
 const Profile = () => {
->>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
   const { id } = useParams();
   const userDetails = useContext(ContextApi);
   const [userData, setUserData] = useState();
@@ -34,10 +33,6 @@ const Profile = () => {
             )}`,
           },
         });
-<<<<<<< HEAD
-
-=======
->>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
         if (res.status == 200) {
           let data = await res.data;
           setUserData(data);
@@ -46,11 +41,7 @@ const Profile = () => {
           alert(await res.data);
         }
       } catch (error) {
-<<<<<<< HEAD
         alert("Something went wrong !!!!!!!");
-=======
-        alert("Something went wrong");
->>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
       }
     };
 
@@ -73,7 +64,6 @@ const Profile = () => {
     if (id == null) doIt();
     else anonymous();
   }, []);
-<<<<<<< HEAD
 
   const deleteHandler = async () => {
     try {
@@ -100,8 +90,6 @@ const Profile = () => {
     }
   };
 
-=======
->>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
   return (
     <div>
       {loding ? (
@@ -141,11 +129,7 @@ const Profile = () => {
                   className="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center"
                   style={{
                     backgroundImage: `url(${
-<<<<<<< HEAD
                       userData.filepath === null || userData.filepath != null
-=======
-                      userData.filepath === null
->>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
                         ? img
                         : myInitObject.homeURL + "/" + userData.filepath
                     })`,
@@ -162,7 +146,6 @@ const Profile = () => {
                     Edit
                   </button>
                 )}
-<<<<<<< HEAD
                 {userDetails.isAuth &&
                   (userDetails.email === userData.email ||
                     userDetails.email === "kumarisbeck@gmail.com") && (
@@ -180,8 +163,6 @@ const Profile = () => {
                       Delete
                     </button>
                   )}
-=======
->>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
                 <h1 className="text-3xl font-bold pt-8 lg:pt-0">
                   {userData.name}
                 </h1>
@@ -371,11 +352,7 @@ const Profile = () => {
               <img
                 style={{ objectFit: "cover", width: "100%" }}
                 src={
-<<<<<<< HEAD
                   userData.filepath === null || userData.filepath != null
-=======
-                  userData.filepath === null
->>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
                     ? img
                     : myInitObject.homeURL + "/" + userData.filepath
                 }

@@ -182,21 +182,14 @@ const RegisterForm = () => {
           id="password"
           className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
           placeholder="secretKey"
-<<<<<<< HEAD
           title="it should be more than or equal to 6 character" 
-=======
->>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
           required
         />
       </div>
       <div className="mb-6">
         <label
           htmlFor="number"
-<<<<<<< HEAD
           className="  peer-invalid:visible block mb-2 text-sm font-black text-gray-900 dark:text-gray-300"
-=======
-          className=" invisible peer-invalid:visible block mb-2 text-sm font-black text-gray-900 dark:text-gray-300"
->>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
         >
           Phone Number
         </label>
@@ -209,12 +202,8 @@ const RegisterForm = () => {
           placeholder="9999999999"
           required
           minLength={10}
-<<<<<<< HEAD
           // maxLength={10}
           title="enter a valid phone number" 
-=======
-          maxLength={10}
->>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
         />
       </div>
       <button

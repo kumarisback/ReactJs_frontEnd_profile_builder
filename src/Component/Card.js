@@ -7,13 +7,8 @@ const Card = (data) => {
     const user =data.data;
     // console.log(user.filepath);
     let image=img;
-<<<<<<< HEAD
     // if(user.filepath!=null)
     //    image=myInitObject.homeURL+"/"+user.filepath;
-=======
-    if(user.filepath!=null)
-       image=myInitObject.homeURL+"/"+user.filepath;
->>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
   return (
     <div >
         <div className="rounded-3xl overflow-hidden shadow-xl max-w-xs my-3 bg-blue-500  ">

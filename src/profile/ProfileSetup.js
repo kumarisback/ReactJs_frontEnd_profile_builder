@@ -59,17 +59,10 @@ const ProfileSetup = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-<<<<<<< HEAD
     // if( sendFile.file.size >100000 ){
     //   setMessage("Size of file should be less then 1MB")
     //   return
     // }
-=======
-    if( sendFile.file.size >100000 ){
-      setMessage("Size of file should be less then 1MB")
-      return
-    }
->>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
     if (skills.skills.length === 0 || !skills.skills) {
       setMessage("Put atleast One skill");
       return;
@@ -520,21 +513,13 @@ const ProfileSetup = () => {
       </div>
       <div className="mb-6">
         <div className="mb-3 w-96 flex">
-<<<<<<< HEAD
           {/*<label
-=======
-          <label
->>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
             htmlFor="formFile"
             className="form-label  block mb-2 text-sm font-black text-gray-900 dark:text-gray-300"
           >
             Profile photo
           </label>
-<<<<<<< HEAD
            <input
-=======
-          <input
->>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
             className="form-control
     block
     w-full
@@ -553,11 +538,7 @@ const ProfileSetup = () => {
             type="file"
             id="formFile"
             onChange={handleChange}
-<<<<<<< HEAD
           /> */}
-=======
-          />
->>>>>>> ccf5fcd76eef1de6ebf6b63f809729b579e6203e
           {file != null && (
             <div className="mb-4">
               <img
