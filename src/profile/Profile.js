@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import ContextApi from "../Context/ContextApi";
 import myInitObject from "../ApiUrl/url";
-import axios from "axios";
-import img from "../images/bg.jpg";
+import axios, { Axios } from "axios";
+import img from "../images/img.jfif";
 import { useNavigate, useParams } from "react-router-dom";
-import ProjectCard from "../Component/ProjectCard";
 
-const Profile = () => {
+
+const Profile = (props) => {
   const { id } = useParams();
   const userDetails = useContext(ContextApi);
   const [userData, setUserData] = useState();
@@ -35,7 +35,7 @@ const Profile = () => {
           alert(await res.data);
         }
       } catch (error) {
-        alert("Something went wrong");
+        alert("Something went wrong !!!!!!!");
       }
     };
 
@@ -58,6 +58,34 @@ const Profile = () => {
     if (id == null) doIt();
     else anonymous();
   }, []);
+
+
+  const deleteHandler = async () => {
+    try {
+      let res = await axios.delete(myInitObject.homeURL + "/deleteprofile", {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("TOKEN"))}`,
+        },
+      });
+      console.log(res);
+      if ( res.status === 200) {
+        localStorage.removeItem("TOKEN");
+        props.authHandler(false, null, null);
+
+        alert(res.data);
+
+        nav("/");
+      } else {
+        alert("Something went wrong !!!");
+      }
+      return;
+    } catch (error) {
+      alert("something went wrong   ");
+      return;
+    }
+  };
+
+  console.log(userData);
   return (
     <div>
       {loding ? (
@@ -97,9 +125,9 @@ const Profile = () => {
                   className="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center"
                   style={{
                     backgroundImage: `url(${
-                      userData.filepath === null
+                      userData.filedata === null 
                         ? img
-                        : myInitObject.homeURL + "/" + userData.filepath
+                        : "data:image/png;base64," +userData.filedata["file"] 
                     })`,
                   }}
                 ></div>
@@ -114,6 +142,23 @@ const Profile = () => {
                     Edit
                   </button>
                 )}
+                {userDetails.isAuth &&
+                  (userDetails.email === userData.email ||
+                    userDetails.email === "kumarisbeck@gmail.com") && (
+                    <button
+                      onClick={() => {
+                        if (
+                          window.confirm("Are sure you want to delete your account?")
+                        ) {
+                          deleteHandler();
+                        }
+                      }}
+                      type="button"
+                      className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                    >
+                      Delete
+                    </button>
+                  )}
                 <h1 className="text-3xl font-bold pt-8 lg:pt-0">
                   {userData.name}
                 </h1>
@@ -303,9 +348,9 @@ const Profile = () => {
               <img
                 style={{ objectFit: "cover", width: "100%" }}
                 src={
-                  userData.filepath === null
+                  userData.filedata === null 
                     ? img
-                    : myInitObject.homeURL + "/" + userData.filepath
+                    : "data:image/png;base64," +userData.filedata["file"] 
                 }
                 className="rounded-none lg:rounded-lg shadow-2xl hidden lg:block"
               />

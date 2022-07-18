@@ -5,10 +5,12 @@ import img  from "../images/img.jfif"
 const Card = (data) => {
   let navigate=useNavigate();
     const user =data.data;
-    // console.log(user.filepath);
+    
     let image=img;
-    if(user.filepath!=null)
-       image=myInitObject.homeURL+"/"+user.filepath;
+    if(user.filedata !=null && user.filedata["file"]!=null){
+      image= "data:image/png;base64," +user.filedata["file"] ;
+    }
+      
   return (
     <div >
         <div className="rounded-3xl overflow-hidden shadow-xl max-w-xs my-3 bg-blue-500  ">
@@ -21,7 +23,7 @@ const Card = (data) => {
 		<p className="mt-2 font-sans font-light text-white">{user.about}</p>
 	</div>
   	<div className="flex justify-center pb-3 text-white">
-    <button className='bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow' onClick={()=>navigate(`/myprofile/${user.id}`)}>Detail</button>
+    <button className='bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow' onClick={()=>navigate(`/profile/${user.id}`)}>Detail</button>
       
   	</div>
 </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import img from "../images/hero.png";
 const Home = () => {
