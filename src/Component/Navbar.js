@@ -1,11 +1,11 @@
-import React, { useContext,useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import ContextApi from "../Context/ContextApi";
 
 const Navbar = (props) => {
   const userDetails = useContext(ContextApi);
   let navigate = useNavigate();
-const [clicked, setClicked] = useState(false);
+  const [clicked, setClicked] = useState(false);
   const loginHandler = () => {
     navigate("/login");
     return;
@@ -21,14 +21,17 @@ const [clicked, setClicked] = useState(false);
     <nav className="bg-gray-800 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-16">
-          <div className={"absolute inset-y-0 left-0 flex items-center sm:hidden"}>
+          <div
+            className={"absolute inset-y-0 left-0 flex items-center sm:hidden"}
+          >
             <button
               type="button"
-              onClick={()=>{
-                setClicked(!clicked)
-                console.log(clicked);
+              onClick={() => {
+                setClicked(!clicked);
               }}
-              className={ "inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"}
+              className={
+                "inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+              }
               aria-controls="mobile-menu"
               aria-expanded="false"
             >
@@ -163,10 +166,17 @@ const [clicked, setClicked] = useState(false);
         </div>
       </div>
 
-      <div className={"sm:hidden" } id="mobile-menu">
-        <div className={   clicked?"block ":"hidden " +"px-2 pt-2 pb-3 space-y-1"}>
+      <div className={"sm:hidden"} id="mobile-menu">
+        <div
+          className={
+            clicked ? "block " : "hidden " + "px-2 pt-2 pb-3 space-y-1"
+          }
+        >
           <a
-            onClick={() => navigate("/")}
+            onClick={() => {
+              setClicked(!clicked);
+              navigate("/");
+            }}
             className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
             aria-current="page"
           >
@@ -174,20 +184,23 @@ const [clicked, setClicked] = useState(false);
           </a>
 
           <a
-             onClick={() => navigate("/users")}
+            onClick={() => {
+              setClicked(!clicked);
+              navigate("/users");
+            }}
             className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
           >
             Users
           </a>
 
           <a
-            href="#"
+            onClick={() => {
+              setClicked(!clicked);
+            }}
             className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
           >
             Working on feature
           </a>
-
-          
         </div>
       </div>
     </nav>

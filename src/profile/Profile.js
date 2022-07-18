@@ -85,6 +85,7 @@ const Profile = (props) => {
     }
   };
 
+  console.log(userData);
   return (
     <div>
       {loding ? (
