@@ -11,6 +11,7 @@ import ProfileSetup from "./profile/ProfileSetup";
 import axios from "axios";
 import myInitObject from "./ApiUrl/url";
 import RequiredAuth from './Context/RequireAuth'
+import Nav from "./Component/Nav";
 // import PageNotFound from "./Component/PageNotFound";
 const PageNotFound = lazy(() => import("./Component/PageNotFound"));
 
@@ -62,6 +63,7 @@ function App() {
         <Routes>
        
           <Route path="/" element={<Home></Home>} />
+          {/* <Route path="/" element={<Nav/>} /> */}
           <Route path="/users" element={<Users />} />
           <Route
             path="/login"
