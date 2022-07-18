@@ -13,7 +13,6 @@ const Users = () => {
     const fetchData = async () => {
       const response = await axios.get(myInitObject.homeURL + "/users");
       let users=await response.data;
-      // console.log(users);
       setData(users._embedded["userDataList"]);
       // setData(users.content);
       
@@ -26,7 +25,6 @@ const Users = () => {
     setloading(false); 
   }, [data])
   
-
   
   return (
     <div className=" grid justify-items-center  ">

@@ -68,8 +68,8 @@ function App() {
             element={<LoginForm authHandler={authHandler} />}
           />
           <Route path="/register" element={<RegisterForm />} />
-          <Route path="/myprofile/:id" element={<Profile authHandler={authHandler} /> } />
-          <Route path="/myprofile" element={<RequiredAuth><Profile /></RequiredAuth> } />
+          <Route path="/profile/:id" element={<Profile  /> } />
+          <Route path="/myprofile" element={<RequiredAuth><Profile authHandler={authHandler}/></RequiredAuth> } />
           <Route path="/editprofile" element={<RequiredAuth><ProfileSetup /></RequiredAuth>} />
           
           <Route path="/*" element ={<PageNotFound/>}/>

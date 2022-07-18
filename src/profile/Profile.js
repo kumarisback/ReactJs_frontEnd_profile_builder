@@ -6,7 +6,7 @@ import img from "../images/img.jfif";
 import { useNavigate, useParams } from "react-router-dom";
 
 
-const Profile = () => {
+const Profile = (props) => {
   const { id } = useParams();
   const userDetails = useContext(ContextApi);
   const [userData, setUserData] = useState();
@@ -59,6 +59,7 @@ const Profile = () => {
     else anonymous();
   }, []);
 
+
   const deleteHandler = async () => {
     try {
       let res = await axios.delete(myInitObject.homeURL + "/deleteprofile", {
@@ -66,9 +67,9 @@ const Profile = () => {
           Authorization: `Bearer ${JSON.parse(localStorage.getItem("TOKEN"))}`,
         },
       });
-      if (res.status === 200) {
+      console.log(res);
+      if ( res.status === 200) {
         localStorage.removeItem("TOKEN");
-
         props.authHandler(false, null, null);
 
         alert(res.data);
@@ -123,9 +124,9 @@ const Profile = () => {
                   className="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center"
                   style={{
                     backgroundImage: `url(${
-                      userData.filepath === null || userData.filepath != null
+                      userData.filedata === null 
                         ? img
-                        : myInitObject.homeURL + "/" + userData.filepath
+                        : "data:image/png;base64," +userData.filedata["file"] 
                     })`,
                   }}
                 ></div>
@@ -346,9 +347,9 @@ const Profile = () => {
               <img
                 style={{ objectFit: "cover", width: "100%" }}
                 src={
-                  userData.filepath === null || userData.filepath != null
+                  userData.filedata === null 
                     ? img
-                    : myInitObject.homeURL + "/" + userData.filepath
+                    : "data:image/png;base64," +userData.filedata["file"] 
                 }
                 className="rounded-none lg:rounded-lg shadow-2xl hidden lg:block"
               />

@@ -35,7 +35,7 @@ const LoginForm = (props) => {
       if (res.status === 200) {
         let data = await res.data;
         localStorage.setItem("TOKEN", JSON.stringify(data.token));
-        navigate(`/myprofile/${data.ID}`);
+        navigate(`/myprofile`);
         props.authHandler(true, data.ID, data.username);
         return;
       }
