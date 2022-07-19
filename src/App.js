@@ -69,7 +69,7 @@ function App() {
               element={<LoginForm authHandler={authHandler} />}
             />
             <Route path="/register" element={<RegisterForm />} />
-            <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/profile/:id" element={<Profile authHandler={authHandler} />} />
             <Route
               path="/myprofile"
               element={
