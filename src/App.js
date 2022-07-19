@@ -5,6 +5,9 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "./Component/Navbar";
 import { useEffect, useState, Suspense, lazy } from "react";
 import ContextApi from "./Context/ContextApi";
+import axios from "axios";
+import myInitObject from "./ApiUrl/url";
+import RequiredAuth from "./Context/RequireAuth";
 
 const Profile = lazy(() => import("./profile/Profile"));
 
@@ -12,9 +15,7 @@ const Home = lazy(() => import("./Component/Home"));
 
 const ProfileSetup = lazy(() => import("./profile/ProfileSetup"));
 
-import axios from "axios";
-import myInitObject from "./ApiUrl/url";
-import RequiredAuth from "./Context/RequireAuth";
+
 const PageNotFound = lazy(() => import("./Component/PageNotFound"));
 
 function App() {
@@ -69,7 +70,7 @@ function App() {
               element={<LoginForm authHandler={authHandler} />}
             />
             <Route path="/register" element={<RegisterForm />} />
-            <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/profile/:id" element={<Profile authHandler={authHandler} />} />
             <Route
               path="/myprofile"
               element={
