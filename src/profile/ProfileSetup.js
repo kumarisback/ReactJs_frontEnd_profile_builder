@@ -59,9 +59,9 @@ const ProfileSetup = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
-    if(sendFile.file!=null && sendFile.file.size >100000 ){
-      setMessage("Size of file should be less then 200kb")
+ 
+    if(sendFile.file!=null && sendFile.file.size > 100000 ){
+      setMessage("Size of file should be less then 100kb")
       return
     }
     if (skills.skills.length === 0 || !skills.skills) {

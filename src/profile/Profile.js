@@ -67,7 +67,7 @@ const Profile = (props) => {
           Authorization: `Bearer ${JSON.parse(localStorage.getItem("TOKEN"))}`,
         },
       });
-      console.log(res);
+      // console.log(res);
       if ( res.status === 200) {
         localStorage.removeItem("TOKEN");
         props.authHandler(false, null, null);
@@ -85,7 +85,7 @@ const Profile = (props) => {
     }
   };
 
-  console.log(userData);
+  // console.log(userData);
   return (
     <div>
       {loding ? (
