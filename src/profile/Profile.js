@@ -47,11 +47,12 @@ const Profile = (props) => {
           setUserData(data);
           setLoding(false);
         } else {
-          alert(await res.data);
+          // alert(await res.data );
+          alert("something went wrong")
         }
       } catch (error) {
-        alert(error.response.data);
-        nav(-1);
+        // alert(error.response.data);
+        nav("/404");
         setLoding(false);
       }
     };
